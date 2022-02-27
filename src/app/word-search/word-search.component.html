@@ -1,0 +1,14 @@
+<div class="word-search-container">
+  <form [formGroup]="wordSearchForm">
+    <mat-form-field class="word-search-form-field" appearance="outline" color="'primary">
+      <mat-label>Search for a word</mat-label>
+      <input formControlName="word" matInput placeholder="Placeholder" [matAutocomplete]="auto" />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of searchSuggestions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon [style.fill]="searchIconRGB" svgIcon="magnify" matSuffix></mat-icon>
+    </mat-form-field>
+  </form>
+</div>

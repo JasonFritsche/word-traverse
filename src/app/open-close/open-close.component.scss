@@ -1,0 +1,25 @@
+.open-close-container {
+  display: flex;
+  flex-direction: column;
+  background-color: inherit;
+  .visible-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+    p {
+      margin-right: 0.5rem;
+    }
+  }
+  .open-close-content {
+    display: flex;
+  }
+}
+
+:host {
+  display: block;
+}
+.fade {
+  opacity: 0;
+}
