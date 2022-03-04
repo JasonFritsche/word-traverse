@@ -1,7 +1,8 @@
 .open-close-container {
   display: flex;
   flex-direction: column;
-  background-color: inherit;
+  align-items: center;
+  width: inherit;
   .visible-bar {
     display: flex;
     flex-direction: row;
@@ -13,8 +14,13 @@
     }
   }
   .open-close-content {
-    display: flex;
+    width: 95%;
+    max-width: 600px;
   }
+}
+
+.gradient-background {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(198, 198, 198, 0.18) 100%);
 }
 
 :host {

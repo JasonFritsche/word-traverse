@@ -12,20 +12,17 @@ export type OpenCloseState = "open" | "closed";
       state(
         "open",
         style({
-          height: "300px",
-          width: "25vw",
           opacity: 1,
         })
       ),
       state(
         "closed",
         style({
-          height: "0vh",
-          display: "none",
+          opacity: 0,
         })
       ),
       transition("open => *", [animate("300ms ease-out")]),
-      transition("* => open", [animate("250ms ease-out")]),
+      transition("* => open", [animate("350ms ease-in")]),
     ]),
   ],
 })
@@ -47,7 +44,7 @@ export class OpenCloseComponent implements OnInit {
   }
 
   animationDone(event: AnimationEvent) {
-    if (event.fromState === "open" && event.toState === "closed") {
+    if (event.toState === "closed") {
       this.show = false;
     }
   }
