@@ -1,13 +1,13 @@
 .word-search-container {
   height: auto;
-  width: 100vw;
+  width: auto;
   background-color: inherit;
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
     .word-search-form-field {
-      width: 90vw;
+      width: 100%;
     }
   }
 }

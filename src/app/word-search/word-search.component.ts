@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Observable } from "rxjs";
+import { FormBuilder, Validators } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, filter, map, retry, startWith, switchMap, tap } from "rxjs/operators";
 import { ISearchCriteria, IWordSearchResult } from "../interfaces/words";
 import { AppService } from "../services/app.service";
@@ -16,6 +16,7 @@ export class WordSearchComponent implements OnInit {
 
   searchIconRGB = "rgb(18, 48, 87)";
   searchSuggestions!: Observable<string[]>;
+
   wordSearchOptions: ISearchCriteria[] = [
     { name: "Sounds Like", value: "sl" },
     { name: "Rhymes With", value: "rel_rhy" },
@@ -25,11 +26,22 @@ export class WordSearchComponent implements OnInit {
   ];
 
   wordSearchForm = this.formBuilder.group({
-    word: [""],
-    criteria: [{ value: this.wordSearchOptions[1].value, disabled: true }],
+    word: ["", Validators.required],
+    criteria: [{ value: "", disabled: true }, Validators.required],
   });
 
-  ngOnInit(): void {
+  private formChanges$!: Subscription;
+
+  ngOnInit() {
+    this.handleSearchSuggestions();
+    this.handleFormChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.formChanges$) this.formChanges$.unsubscribe();
+  }
+
+  private handleSearchSuggestions() {
     this.searchSuggestions = this.wordSearchForm.controls["word"].valueChanges.pipe(
       map((wordSearch: string) => wordSearch.trim()),
       debounceTime(250),
@@ -51,5 +63,9 @@ export class WordSearchComponent implements OnInit {
         )
       )
     );
+  }
+
+  private handleFormChanges() {
+    this.formChanges$ = this.wordSearchForm.valueChanges.pipe(debounceTime(250), distinctUntilChanged()).subscribe((change) => console.log(change));
   }
 }
