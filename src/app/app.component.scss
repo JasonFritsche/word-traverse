@@ -1,0 +1,44 @@
+@use "@angular/material" as mat;
+
+.app-grid {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  header {
+    position: relative;
+    z-index: 2;
+    height: 64px;
+  }
+  main {
+    min-height: calc(100vh - 64px);
+  }
+}
+
+.content-container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  grid-gap: 0.5rem;
+  align-items: flex-start;
+  .content-container-child {
+    height: 100%;
+    width: 100%;
+  }
+  .content-container-child:first-child {
+    grid-column: span 1;
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+.search-panel {
+  @include mat.elevation-transition();
+  @include mat.elevation(6);
+
+  &:hover {
+    @include mat.elevation(16);
+  }
+  &:active {
+    @include mat.elevation(16);
+  }
+}

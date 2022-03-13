@@ -1,0 +1,16 @@
+.dialogPanel {
+  mat-dialog-container {
+    @include breakpoint(xs) {
+      width: 80vw;
+    }
+    @include breakpoint(sm) {
+      width: 70vw;
+    }
+    @include breakpoint(md) {
+      width: 600px;
+    }
+    @include breakpoint(lg) {
+      width: 700px;
+    }
+  }
+}

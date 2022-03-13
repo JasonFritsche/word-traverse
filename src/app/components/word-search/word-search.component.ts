@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, filter, map, retry, startWith, switchMap, tap } from "rxjs/operators";
-import { ISearchCriteria, IWordSearchResult } from "../interfaces/words";
-import { AppService } from "../services/app.service";
-import { HttpService } from "../services/http.service";
+import { ISearchCriteria, IWordSearchOptions, IWordSearchResult } from "../../../interfaces/words";
+import { AppService } from "../../services/app.service";
+import { HttpService } from "../../../services/http.service";
+import { HighchartsService } from "src/services/highcharts.service";
 
 @Component({
   selector: "app-word-search",
@@ -12,12 +13,17 @@ import { HttpService } from "../services/http.service";
   styleUrls: ["./word-search.component.scss"],
 })
 export class WordSearchComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private appService: AppService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private httpService: HttpService,
+    private appService: AppService,
+    private highChartsService: HighchartsService
+  ) {}
 
   searchIconRGB = "rgb(18, 48, 87)";
   searchSuggestions!: Observable<string[]>;
 
-  wordSearchOptions: ISearchCriteria[] = [
+  wordSearchOptions: IWordSearchOptions[] = [
     { name: "Sounds Like", value: "sl" },
     { name: "Rhymes With", value: "rel_rhy" },
     { name: "Spelled Similarly To", value: "sp" },
@@ -27,7 +33,7 @@ export class WordSearchComponent implements OnInit {
 
   wordSearchForm = this.formBuilder.group({
     word: ["", Validators.required],
-    criteria: [{ value: "", disabled: true }, Validators.required],
+    searchOptions: [{ value: "", disabled: true }, Validators.required],
   });
 
   private formChanges$!: Subscription;
@@ -41,6 +47,13 @@ export class WordSearchComponent implements OnInit {
     if (this.formChanges$) this.formChanges$.unsubscribe();
   }
 
+  onWordSearchFormSubmit() {
+    // todo: we sometimes get an empty array, no results, how should that be handled? the word Testament is a good word to use for this case
+    this.httpService.getSearchResults(this.wordSearchForm.value).subscribe((res: IWordSearchResult[]) => {
+      this.highChartsService.setLatestWordSearchResults(res);
+    });
+  }
+
   private handleSearchSuggestions() {
     this.searchSuggestions = this.wordSearchForm.controls["word"].valueChanges.pipe(
       map((wordSearch: string) => wordSearch.trim()),
@@ -49,9 +62,9 @@ export class WordSearchComponent implements OnInit {
       tap((searchTerm: string) => {
         this.searchIconRGB = this.appService.generateRGBColor();
         if (searchTerm !== "") {
-          this.wordSearchForm.controls["criteria"].enable();
+          this.wordSearchForm.controls["searchOptions"].enable();
         } else {
-          this.wordSearchForm.controls["criteria"].disable();
+          this.wordSearchForm.controls["searchOptions"].disable();
         }
       }),
       filter((wordSearch: string) => wordSearch !== ""),

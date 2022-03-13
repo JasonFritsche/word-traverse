@@ -8,35 +8,35 @@ import { MatIconRegistry, MatIconModule } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 
 // Third Part Libs
-import { HighchartsChartModule } from "highcharts-angular";
 import { ToastrModule } from "ngx-toastr";
 
 // App Components
 import { AppComponent } from "./app.component";
-import { NavbarComponent } from "./navbar/navbar.component";
-import { WordSearchComponent } from "./word-search/word-search.component";
-import { OpenCloseComponent } from "./open-close/open-close.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { WordSearchComponent } from "./components/word-search/word-search.component";
 
 // App Services
 import { ErrorHandlingInterceptor } from "./interceptors/error-handling.interceptor";
 
 // Modules
 import { MaterialModule } from "../material/material.module";
+import { DataVisualModule } from "src/data-visual/data-visual.module";
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, WordSearchComponent, OpenCloseComponent],
+  declarations: [AppComponent, NavbarComponent, WordSearchComponent, EmptyStateComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HighchartsChartModule,
     MatIconModule,
     MaterialModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: "toast-bottom-full-width",
     }),
+    DataVisualModule,
   ],
   providers: [
     {

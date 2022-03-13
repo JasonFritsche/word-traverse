@@ -1,5 +1,5 @@
 <div class="word-search-container">
-  <form [formGroup]="wordSearchForm">
+  <form [formGroup]="wordSearchForm" (ngSubmit)="onWordSearchFormSubmit()">
     <mat-form-field class="word-search-form-field" appearance="outline" color="'primary">
       <mat-label>Search for a word</mat-label>
       <input formControlName="word" matInput placeholder="Placeholder" [matAutocomplete]="auto" />
@@ -12,9 +12,10 @@
     </mat-form-field>
     <mat-form-field class="word-search-form-field" appearance="outline" color="'primary">
       <mat-label>Search Options</mat-label>
-      <mat-select formControlName="criteria">
+      <mat-select formControlName="searchOptions">
         <mat-option *ngFor="let option of wordSearchOptions" [value]="option.value">{{ option.name }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <button class="word-search-form-field" type="submit" [disabled]="!wordSearchForm.valid" mat-flat-button color="primary">Search</button>
   </form>
 </div>
