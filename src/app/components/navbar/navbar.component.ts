@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { WordSearchComponent } from "../word-search/word-search.component";
 
 @Component({
   selector: "app-navbar",
@@ -8,13 +6,7 @@ import { WordSearchComponent } from "../word-search/word-search.component";
   styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  openWordSearchForm() {
-    this.dialog.open(WordSearchComponent, {
-      panelClass: "dialogPanel",
-    });
-  }
 }

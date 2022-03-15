@@ -13,7 +13,7 @@ import { ToastrModule } from "ngx-toastr";
 // App Components
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
-import { WordSearchComponent } from "./components/word-search/word-search.component";
+import { WordSearchComponent } from "./components/search/word-search/word-search.component";
 
 // App Services
 import { ErrorHandlingInterceptor } from "./interceptors/error-handling.interceptor";
@@ -21,10 +21,11 @@ import { ErrorHandlingInterceptor } from "./interceptors/error-handling.intercep
 // Modules
 import { MaterialModule } from "../material/material.module";
 import { DataVisualModule } from "src/data-visual/data-visual.module";
-import { EmptyStateComponent } from './components/empty-state/empty-state.component';
+import { EmptyStateComponent } from "./components/empty-state/empty-state.component";
+import { SearchResultComponent } from './components/search/search-result/search-result.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, WordSearchComponent, EmptyStateComponent],
+  declarations: [AppComponent, NavbarComponent, WordSearchComponent, EmptyStateComponent, SearchResultComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -6,6 +6,7 @@ export interface IWordSearchResult {
 export interface IWordSearchOptions {
   value: string;
   name: string;
+  resultTerm: string;
 }
 
 export interface ISearchCriteria {
