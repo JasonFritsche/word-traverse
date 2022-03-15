@@ -15,7 +15,8 @@
         </ng-template>
       </div>
       <div class="content-container-child search-panel">
-        <app-word-search></app-word-search>
+        <app-word-search (latestSearch)="handleLatestSearch($event)"></app-word-search>
+        <app-search-result *ngIf="latestSearch" [latestSearch]="latestSearch"></app-search-result>
       </div>
     </div>
   </main>

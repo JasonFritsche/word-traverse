@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, filter, map, retry, startWith, switchMap, tap } from "rxjs/operators";
-import { ISearchCriteria, IWordSearchOptions, IWordSearchResult } from "../../../interfaces/words";
-import { AppService } from "../../services/app.service";
-import { HttpService } from "../../../services/http.service";
+import { IWordSearchOptions, IWordSearchResult } from "../../../../interfaces/words";
+import { AppService } from "../../../services/app.service";
+import { HttpService } from "../../../../services/http.service";
 import { HighchartsService } from "src/services/highcharts.service";
 
 @Component({
@@ -20,15 +20,20 @@ export class WordSearchComponent implements OnInit {
     private highChartsService: HighchartsService
   ) {}
 
+  @Output() latestSearch: EventEmitter<{ word: string; searchOption: IWordSearchOptions }> = new EventEmitter<{
+    word: string;
+    searchOption: IWordSearchOptions;
+  }>();
+
   searchIconRGB = "rgb(18, 48, 87)";
   searchSuggestions!: Observable<string[]>;
 
   wordSearchOptions: IWordSearchOptions[] = [
-    { name: "Sounds Like", value: "sl" },
-    { name: "Rhymes With", value: "rel_rhy" },
-    { name: "Spelled Similarly To", value: "sp" },
-    { name: "Adjectives Used To Describe Your Search Term", value: "rel_jjb" },
-    { name: "Nouns That Are Described By Your Search Term", value: "rel_jja" },
+    { name: "Sounds Like", value: "sl", resultTerm: "words that sound like" },
+    { name: "Rhymes With", value: "rel_rhy", resultTerm: "words that rhyme with" },
+    { name: "Spelled Similarly To", value: "sp", resultTerm: "words that are spelled similarly to" },
+    { name: "Adjectives Used To Describe Your Search Term", value: "rel_jjb", resultTerm: "adjectives used to describe" },
+    { name: "Nouns That Are Described By Your Search Term", value: "rel_jja", resultTerm: "nouns that are described by" },
   ];
 
   wordSearchForm = this.formBuilder.group({
@@ -40,7 +45,7 @@ export class WordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.handleSearchSuggestions();
-    this.handleFormChanges();
+    // this.handleFormChanges();
   }
 
   ngOnDestroy() {
@@ -51,7 +56,16 @@ export class WordSearchComponent implements OnInit {
     // todo: we sometimes get an empty array, no results, how should that be handled? the word Testament is a good word to use for this case
     this.httpService.getSearchResults(this.wordSearchForm.value).subscribe((res: IWordSearchResult[]) => {
       this.highChartsService.setLatestWordSearchResults(res);
+      this.updateLatestSearch();
     });
+  }
+
+  private updateLatestSearch() {
+    const { word, searchOptions } = this.wordSearchForm.value;
+    const searchOption = this.wordSearchOptions.find((option) => option.value === searchOptions);
+    if (searchOption) {
+      this.latestSearch.emit({ word, searchOption });
+    }
   }
 
   private handleSearchSuggestions() {
@@ -78,7 +92,7 @@ export class WordSearchComponent implements OnInit {
     );
   }
 
-  private handleFormChanges() {
-    this.formChanges$ = this.wordSearchForm.valueChanges.pipe(debounceTime(250), distinctUntilChanged()).subscribe((change) => console.log(change));
-  }
+  // private handleFormChanges() {
+  //   this.formChanges$ = this.wordSearchForm.valueChanges.pipe(debounceTime(250), distinctUntilChanged()).subscribe((change) => console.log(change));
+  // }
 }
