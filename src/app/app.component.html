@@ -10,13 +10,20 @@
         </ng-container>
         <ng-template #emptyState>
           <app-empty-state>
-            <p>Looks like there's nothing here. Make a search to get started!</p>
+            <p class="empty-state-status-message">
+              Looks like there's nothing here. Make a search to get started!
+            </p>
           </app-empty-state>
         </ng-template>
       </div>
       <div class="content-container-child search-panel">
-        <app-word-search (latestSearch)="handleLatestSearch($event)"></app-word-search>
-        <app-search-result *ngIf="latestSearch" [latestSearch]="latestSearch"></app-search-result>
+        <app-word-search
+          (latestSearch)="handleLatestSearch($event)"
+        ></app-word-search>
+        <app-search-result
+          *ngIf="latestSearch"
+          [latestSearch]="latestSearch"
+        ></app-search-result>
       </div>
     </div>
   </main>
