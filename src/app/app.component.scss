@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+@import "font";
 
 .app-grid {
   display: flex;
@@ -41,4 +42,8 @@
   &:active {
     @include mat.elevation(16);
   }
+}
+
+.empty-state-status-message {
+  font-size: $font-lg;
 }
