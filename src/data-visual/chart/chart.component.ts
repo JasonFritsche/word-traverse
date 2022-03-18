@@ -35,6 +35,7 @@ export class ChartComponent implements OnInit, OnChanges {
             type: 'packedbubble',
           },
         ],
+        plotOptions: options.plotOptions,
         tooltip: options.tooltip,
       };
       this.chartOptions = newChartOptions;

@@ -24,8 +24,8 @@ export class HichchartsOptions implements IHighchartsOptions {
 
   plotOptions = {
     packedbubble: {
-      minSize: '30',
-      maxSize: '120',
+      minSize: '20%',
+      maxSize: '90%',
       zMin: 0,
       zMax: 1000,
       layoutAlgorithm: {
@@ -38,7 +38,7 @@ export class HichchartsOptions implements IHighchartsOptions {
         filter: {
           property: 'y',
           operator: '>',
-          value: 100,
+          value: 800,
         },
         style: {
           color: 'black',
