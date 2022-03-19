@@ -25,18 +25,32 @@ export class ChartComponent implements OnInit, OnChanges {
   chartOptions!: Highcharts.Options;
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes['options'].currentValue) {
       const options = changes['options'].currentValue;
       const newChartOptions: Highcharts.Options = {
+        title: options.title,
+        legend: {
+          enabled: false,
+        },
+        credits: {
+          enabled: false,
+        },
         series: [
           {
             data: options.series.data,
             type: 'packedbubble',
+            label: {
+              enabled: false,
+            },
           },
         ],
         plotOptions: options.plotOptions,
-        tooltip: options.tooltip,
+        tooltip: {
+          formatter: function () {
+            return `${this.key}`;
+          },
+          shared: true,
+        },
       };
       this.chartOptions = newChartOptions;
     }

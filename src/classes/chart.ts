@@ -14,12 +14,7 @@ export class HichchartsOptions implements IHighchartsOptions {
   };
 
   title = {
-    text: 'here i am testing this out',
-  };
-
-  tooltip = {
-    useHTML: true,
-    pointFormat: '<b>{point.name}, {point.value}</b>',
+    text: '',
   };
 
   plotOptions = {
@@ -44,6 +39,7 @@ export class HichchartsOptions implements IHighchartsOptions {
           color: 'black',
           textOutline: 'none',
           fontWeight: 'normal',
+          fontSize: '.9rem',
         },
       },
     },

@@ -6,10 +6,6 @@ export interface IHighchartsOptions {
   title: {
     text: string;
   };
-  tooltip?: {
-    useHTML?: boolean;
-    pointFormat?: string;
-  };
   plotOptions: {
     packedbubble: {
       minSize: string | number;
