@@ -1,21 +1,57 @@
 <div class="word-search-container">
-  <form [formGroup]="wordSearchForm" (ngSubmit)="onWordSearchFormSubmit()">
-    <mat-form-field class="word-search-form-field" appearance="outline" color="'primary">
+  <form
+    [formGroup]="wordSearchForm"
+    #formDirective="ngForm"
+    (ngSubmit)="onWordSearchFormSubmit(formDirective)"
+  >
+    <mat-form-field
+      class="word-search-form-field"
+      appearance="outline"
+      color="'primary"
+    >
       <mat-label>Search for a word</mat-label>
-      <input formControlName="word" matInput placeholder="Placeholder" [matAutocomplete]="auto" />
+      <input
+        formControlName="word"
+        matInput
+        placeholder="Placeholder"
+        [matAutocomplete]="auto"
+      />
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of searchSuggestions | async" [value]="option">
+        <mat-option
+          *ngFor="let option of searchSuggestions | async"
+          [value]="option"
+        >
           {{ option }}
         </mat-option>
       </mat-autocomplete>
-      <mat-icon [style.fill]="searchIconRGB" svgIcon="magnify" matSuffix></mat-icon>
+      <mat-icon
+        [style.fill]="searchIconRGB"
+        svgIcon="magnify"
+        matSuffix
+      ></mat-icon>
     </mat-form-field>
-    <mat-form-field class="word-search-form-field" appearance="outline" color="'primary">
+    <mat-form-field
+      class="word-search-form-field"
+      appearance="outline"
+      color="'primary"
+    >
       <mat-label>Search Options</mat-label>
       <mat-select formControlName="searchOptions">
-        <mat-option *ngFor="let option of wordSearchOptions" [value]="option.value">{{ option.name }}</mat-option>
+        <mat-option
+          *ngFor="let option of wordSearchOptions"
+          [value]="option.value"
+          >{{ option.name }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
-    <button class="word-search-form-field" type="submit" [disabled]="!wordSearchForm.valid" mat-flat-button color="primary">Search</button>
+    <button
+      class="word-search-form-field"
+      type="submit"
+      [disabled]="!wordSearchForm.valid"
+      mat-flat-button
+      color="primary"
+    >
+      Search
+    </button>
   </form>
 </div>
