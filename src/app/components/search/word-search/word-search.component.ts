@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -76,20 +76,31 @@ export class WordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.handleSearchSuggestions();
+    this.wordSearchForm.valueChanges.subscribe((res) =>
+      console.log(this.wordSearchForm)
+    );
   }
 
   ngOnDestroy() {
     if (this.formChanges$) this.formChanges$.unsubscribe();
   }
 
-  onWordSearchFormSubmit() {
+  onWordSearchFormSubmit(formDirective: FormGroupDirective) {
     // todo: we sometimes get an empty array, no results, how should that be handled? the word Testament is a good word to use for this case
     this.httpService
       .getSearchResults(this.wordSearchForm.value)
       .subscribe((res: IWordSearchResult[]) => {
         this.highChartsService.setLatestWordSearchResults(res);
         this.updateLatestSearch();
+        this.resetForm(formDirective);
       });
+  }
+
+  private resetForm(formDirective: FormGroupDirective) {
+    this.wordSearchForm.reset();
+    // have to reset the formGroupDirective due to angular material: https://stackoverflow.com/questions/48216330/angular-5-formgroup-reset-doesnt-reset-validators
+    formDirective.resetForm();
+    this.wordSearchForm.controls['searchOptions'].disable();
   }
 
   private updateLatestSearch() {
@@ -106,6 +117,8 @@ export class WordSearchComponent implements OnInit {
     this.searchSuggestions = this.wordSearchForm.controls[
       'word'
     ].valueChanges.pipe(
+      tap((res) => console.log(res)),
+      filter((res) => res !== null),
       map((wordSearch: string) => wordSearch.trim()),
       debounceTime(250),
       distinctUntilChanged(),
