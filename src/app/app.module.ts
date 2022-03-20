@@ -1,31 +1,37 @@
 // Angular Imports
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatIconRegistry, MatIconModule } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 // Third Part Libs
-import { ToastrModule } from "ngx-toastr";
+import { ToastrModule } from 'ngx-toastr';
 
 // App Components
-import { AppComponent } from "./app.component";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { WordSearchComponent } from "./components/search/word-search/word-search.component";
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { WordSearchComponent } from './components/search/word-search/word-search.component';
 
 // App Services
-import { ErrorHandlingInterceptor } from "./interceptors/error-handling.interceptor";
+import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 
 // Modules
-import { MaterialModule } from "../material/material.module";
-import { DataVisualModule } from "src/data-visual/data-visual.module";
-import { EmptyStateComponent } from "./components/empty-state/empty-state.component";
+import { MaterialModule } from '../material/material.module';
+import { DataVisualModule } from 'src/data-visual/data-visual.module';
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 import { SearchResultComponent } from './components/search/search-result/search-result.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, WordSearchComponent, EmptyStateComponent, SearchResultComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    WordSearchComponent,
+    EmptyStateComponent,
+    SearchResultComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -35,7 +41,7 @@ import { SearchResultComponent } from './components/search/search-result/search-
     MaterialModule,
     ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: "toast-bottom-full-width",
+      positionClass: 'toast-bottom-full-width',
     }),
     DataVisualModule,
   ],
@@ -50,6 +56,8 @@ import { SearchResultComponent } from './components/search/search-result/search-
 })
 export class AppModule {
   constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
-    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl("./assets/mdi.svg"));
+    matIconRegistry.addSvgIconSet(
+      domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg')
+    );
   }
 }

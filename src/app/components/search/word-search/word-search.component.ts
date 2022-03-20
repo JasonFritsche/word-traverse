@@ -18,6 +18,7 @@ import {
 import { AppService } from '../../../services/app.service';
 import { HttpService } from '../../../../services/http.service';
 import { HighchartsService } from 'src/services/highcharts.service';
+import { wordSearchOptions } from '../../../constants/constants';
 
 @Component({
   selector: 'app-word-search',
@@ -42,30 +43,7 @@ export class WordSearchComponent implements OnInit {
 
   searchIconRGB = 'rgb(18, 48, 87)';
   searchSuggestions!: Observable<string[]>;
-
-  wordSearchOptions: IWordSearchOptions[] = [
-    { name: 'Sounds Like', value: 'sl', resultTerm: 'words that sound like' },
-    {
-      name: 'Rhymes With',
-      value: 'rel_rhy',
-      resultTerm: 'words that rhyme with',
-    },
-    {
-      name: 'Spelled Similarly To',
-      value: 'sp',
-      resultTerm: 'words that are spelled similarly to',
-    },
-    {
-      name: 'Adjectives Used To Describe Your Search Term',
-      value: 'rel_jjb',
-      resultTerm: 'adjectives used to describe',
-    },
-    {
-      name: 'Nouns That Are Described By Your Search Term',
-      value: 'rel_jja',
-      resultTerm: 'nouns that are described by',
-    },
-  ];
+  wordSearchOptions = wordSearchOptions;
 
   wordSearchForm = this.formBuilder.group({
     word: ['', Validators.required],
@@ -76,9 +54,6 @@ export class WordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.handleSearchSuggestions();
-    this.wordSearchForm.valueChanges.subscribe((res) =>
-      console.log(this.wordSearchForm)
-    );
   }
 
   ngOnDestroy() {
@@ -105,7 +80,7 @@ export class WordSearchComponent implements OnInit {
 
   private updateLatestSearch() {
     const { word, searchOptions } = this.wordSearchForm.value;
-    const searchOption = this.wordSearchOptions.find(
+    const searchOption = wordSearchOptions.find(
       (option) => option.value === searchOptions
     );
     if (searchOption) {
@@ -117,7 +92,6 @@ export class WordSearchComponent implements OnInit {
     this.searchSuggestions = this.wordSearchForm.controls[
       'word'
     ].valueChanges.pipe(
-      tap((res) => console.log(res)),
       filter((res) => res !== null),
       map((wordSearch: string) => wordSearch.trim()),
       debounceTime(250),

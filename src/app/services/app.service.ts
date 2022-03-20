@@ -1,16 +1,41 @@
-import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { debounceTime, distinctUntilChanged, Subject } from "rxjs";
-import { IToasterMessage } from "../interfaces/toast";
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  Subject,
+} from 'rxjs';
+import { ISearchCriteria } from 'src/interfaces/words';
+import { IToasterMessage } from '../interfaces/toast';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AppService {
   constructor(private toastr: ToastrService) {
-    this.showToaster$.pipe(debounceTime(300), distinctUntilChanged()).subscribe((message: IToasterMessage) => {
-      this.nextToastMessage(message);
-    });
+    this.showToaster$
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((message: IToasterMessage) => {
+        this.nextToastMessage(message);
+      });
+  }
+
+  private readonly _latestWordSearch = new BehaviorSubject<ISearchCriteria>({
+    word: '',
+    searchOptions: '',
+  });
+
+  get latestWordSearch(): ISearchCriteria {
+    return this._latestWordSearch.getValue();
+  }
+
+  private set latestWordSearch(value: ISearchCriteria) {
+    this._latestWordSearch.next(value);
+  }
+
+  nextLatestWordSearch(value: ISearchCriteria) {
+    this.latestWordSearch = value;
   }
 
   private showToasterSubject = new Subject<IToasterMessage>();
@@ -24,13 +49,13 @@ export class AppService {
   nextToastMessage(messageData: IToasterMessage) {
     const { message, messageType } = messageData;
     switch (messageType) {
-      case "error":
+      case 'error':
         this.toastr.error(message);
         break;
-      case "info":
+      case 'info':
         this.toastr.info(message);
         break;
-      case "warning":
+      case 'warning':
         this.toastr.warning(message);
         break;
       default:

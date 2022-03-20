@@ -6,7 +6,10 @@
     <div class="content-container">
       <div class="content-container-child">
         <ng-container *ngIf="showChart; else emptyState">
-          <app-chart [options]="chartOptions"></app-chart>
+          <app-chart
+            [options]="chartOptions"
+            (onBubbleClick)="handleBubbleClick($event)"
+          ></app-chart>
         </ng-container>
         <ng-template #emptyState>
           <app-empty-state>

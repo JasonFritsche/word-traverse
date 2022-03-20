@@ -4,6 +4,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import more from 'highcharts/highcharts-more';
@@ -20,6 +22,8 @@ export class ChartComponent implements OnInit, OnChanges {
   constructor() {}
 
   @Input() options!: IHighchartsOptions;
+
+  @Output() onBubbleClick = new EventEmitter<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
@@ -44,7 +48,16 @@ export class ChartComponent implements OnInit, OnChanges {
             },
           },
         ],
-        plotOptions: options.plotOptions,
+        plotOptions: {
+          packedbubble: {
+            ...options.plotOptions.packedbubble,
+            events: {
+              click: (e: any) => {
+                this.onBubbleClick.emit(e.point.name);
+              },
+            },
+          },
+        },
         tooltip: {
           formatter: function () {
             return `${this.key}`;
