@@ -1,5 +1,5 @@
 export interface IToasterMessage {
-  messageType: "error" | "info" | "success" | "warning";
+  messageType: 'error' | 'info' | 'success' | 'warning';
   message: string;
   toastConfig?: {
     tapToDismiss?: boolean;
