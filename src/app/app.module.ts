@@ -23,6 +23,12 @@ import { MaterialModule } from '../material/material.module';
 import { DataVisualModule } from 'src/data-visual/data-visual.module';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 import { SearchResultComponent } from './components/search/search-result/search-result.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './store/reducers/word-search.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { WordSearchEffects } from './store/effects/word-search.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -44,6 +50,13 @@ import { SearchResultComponent } from './components/search/search-result/search-
       positionClass: 'toast-bottom-full-width',
     }),
     DataVisualModule,
+    StoreModule.forRoot({ state: reducer }),
+    EffectsModule.forRoot([WordSearchEffects]),
+    StoreDevtoolsModule.instrument({
+      name: 'DevTools & Debugging in NgRx',
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [
     {
