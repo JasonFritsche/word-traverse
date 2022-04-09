@@ -19,6 +19,9 @@ import { AppService } from '../../../services/app.service';
 import { HttpService } from '../../../../services/http.service';
 import { HighchartsService } from 'src/services/highcharts.service';
 import { wordSearchOptions } from '../../../constants/constants';
+import { Store } from '@ngrx/store';
+import { IWordSearchState } from 'src/app/store/reducers/word-search.reducers';
+import { NewSearch } from 'src/app/store/actions/word-search.actions';
 
 @Component({
   selector: 'app-word-search',
@@ -30,7 +33,8 @@ export class WordSearchComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private appService: AppService,
-    private highChartsService: HighchartsService
+    private highChartsService: HighchartsService,
+    private _store: Store<IWordSearchState>
   ) {}
 
   @Output() latestSearch: EventEmitter<{
@@ -65,7 +69,6 @@ export class WordSearchComponent implements OnInit {
     this.httpService
       .getSearchResults(this.wordSearchForm.value)
       .subscribe((res: IWordSearchResult[]) => {
-        this.highChartsService.setLatestWordSearchResults(res);
         this.updateLatestSearch();
         this.resetForm(formDirective);
       });

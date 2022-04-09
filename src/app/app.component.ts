@@ -6,9 +6,13 @@ import {
   IWordSearchResult,
 } from 'src/interfaces/words';
 import { HighchartsService } from 'src/services/highcharts.service';
-import { HttpService } from 'src/services/http.service';
-import { AppService } from './services/app.service';
 import { wordSearchOptions } from './constants/constants';
+import { select, Store } from '@ngrx/store';
+import { IWordSearchState } from './store/reducers/word-search.reducers';
+import { NewSearch } from './store/actions/word-search.actions';
+import { getWordSearchResults } from './store/reducers/index';
+import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -20,18 +24,23 @@ export class AppComponent {
   showChart = false;
   chartOptions!: IHighchartsOptions;
   latestSearch!: { word: string; searchOption: IWordSearchOptions };
+  searchResults$!: Observable<IWordSearchResult[]>;
 
   constructor(
-    private appService: AppService,
     private highchartsService: HighchartsService,
-    private httpService: HttpService
+    private _store: Store<IWordSearchState>
   ) {}
 
   ngOnInit() {
-    this.highchartsService.chartOptions$.subscribe((options) => {
-      this.showChart = true;
-      this.chartOptions = options;
-    });
+    this._store
+      .pipe(
+        select(getWordSearchResults),
+        filter((res) => !!res && res.length !== 0)
+      )
+      .subscribe((wordSearchRes) => {
+        this.showChart = true;
+        this.chartOptions = this.highchartsService.createOptions(wordSearchRes);
+      });
   }
 
   handleLatestSearch(latestSearch: {
@@ -40,42 +49,46 @@ export class AppComponent {
   }) {
     const latestSearchCriteria: ISearchCriteria = {
       word: latestSearch.word,
-      searchOptions: latestSearch.searchOption.name,
+      searchOptions: latestSearch.searchOption.value,
     };
-    this.appService.nextLatestWordSearch(latestSearchCriteria);
-    this.latestSearch = latestSearch;
+
+    this.latestSearch = latestSearch; // todo: do we need this?
+    this._store.dispatch(NewSearch({ payload: latestSearchCriteria }));
   }
 
   handleBubbleClick(clickedBubbleWord: string) {
     // 1) get the latest word search from the app service
-    const latestWordSearch = this.appService.latestWordSearch;
+    // todo: get the latest word search from state
+    // const latestWordSearch = this.appService.latestWordSearch;
     // 2) create a new ISearchCriteria, set the clicked bubble word as the word, use the latestWordSearch searchOptions property as the searchOptions
-    const newSearchCriteria: ISearchCriteria = {
-      word: clickedBubbleWord,
-      searchOptions: latestWordSearch.searchOptions,
-    };
+    // const newSearchCriteria: ISearchCriteria = {
+    //   word: clickedBubbleWord,
+    //   searchOptions: latestWordSearch.searchOptions,
+    // };
     // 3) set the newSearchCriteria in the app service
-    this.appService.nextLatestWordSearch(newSearchCriteria);
-    console.log(newSearchCriteria);
+    // todo: dispatch action here
+
     // 4) find the correlating search option value in wordSearchOptions
+    console.log(wordSearchOptions);
     const currentWordOption = wordSearchOptions.find(
-      (option) => option.name === newSearchCriteria.searchOptions
+      (option) => option.value === null // newSearchCriteria.searchOptions
     );
     // 5) update the chart
     if (currentWordOption?.value) {
-      this.httpService
-        .getSearchResults({
-          word: newSearchCriteria.word,
-          searchOptions: currentWordOption?.value ?? '',
-        })
-        .subscribe((res: IWordSearchResult[]) => {
-          this.highchartsService.setLatestWordSearchResults(res);
-        });
-      // 6) handle latest search
-      this.handleLatestSearch({
-        word: newSearchCriteria.word,
-        searchOption: currentWordOption,
-      });
+      console.log('attempting to make getSearchResults call');
+      // this.httpService
+      //   .getSearchResults({
+      //     word: newSearchCriteria.word,
+      //     searchOptions: newSearchCriteria?.searchOptions ?? '',
+      //   })
+      //   .subscribe((res: IWordSearchResult[]) => {
+      //     this.highchartsService.setLatestWordSearchResults(res);
+      //   });
+      // // 6) handle latest search
+      // this.handleLatestSearch({
+      //   word: newSearchCriteria.word,
+      //   searchOption: currentWordOption,
+      // });
     }
   }
 }

@@ -3,13 +3,13 @@ export interface IWordSearchResult {
   score: number;
 }
 
-export interface IWordSearchOptions {
-  value: string;
-  name: string;
-  resultTerm: string;
-}
-
 export interface ISearchCriteria {
   word: string;
   searchOptions: string;
+}
+
+export interface IWordSearchOptions {
+  name: string; // ex. 'Rhymes With'
+  value: string; // ex. 'rel_rhy'
+  resultTerm: string; // 'words that rhyme with'
 }

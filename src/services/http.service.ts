@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ISearchCriteria, IWordSearchResult } from '../interfaces/words';
 
 @Injectable({
@@ -17,12 +18,19 @@ export class HttpService {
     );
   }
 
-  getSearchResults(
-    searchCriteria: ISearchCriteria
-  ): Observable<IWordSearchResult[]> {
+  getSearchResults(searchCriteria: ISearchCriteria) {
+    //todo: implement error handling
     const { searchOptions, word } = searchCriteria;
-    return this.httpClient.get<IWordSearchResult[]>(
-      `${this.dmBaseUrl}/words?${searchOptions}=${word}`
-    );
+    return this.httpClient
+      .get<IWordSearchResult[]>(
+        `${this.dmBaseUrl}/words?${searchOptions}=${word}`
+      )
+      .pipe(
+        map((res: IWordSearchResult[]) => res),
+        catchError((err) => {
+          console.log(err);
+          return of([]);
+        })
+      );
   }
 }
