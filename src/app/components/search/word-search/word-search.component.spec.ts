@@ -1,15 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MaterialModule } from 'src/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
+import { MaterialModule } from 'src/material/material.module';
 import { WordSearchComponent } from './word-search.component';
 
 describe('WordSearchComponent', () => {
   let component: WordSearchComponent;
   let fixture: ComponentFixture<WordSearchComponent>;
+  let store: MockStore;
+  const initialState = { loggedIn: false };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -20,7 +22,10 @@ describe('WordSearchComponent', () => {
         BrowserAnimationsModule,
         MaterialModule,
       ],
+      providers: [provideMockStore({ initialState })],
     }).compileComponents();
+
+    store = TestBed.inject(MockStore);
   });
 
   beforeEach(() => {
