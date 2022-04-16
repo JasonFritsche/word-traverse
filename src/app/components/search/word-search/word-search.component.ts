@@ -7,7 +7,6 @@ import {
   filter,
   map,
   retry,
-  skipWhile,
   startWith,
   switchMap,
   tap,
@@ -27,8 +26,7 @@ import { wordSearchOptions } from '../../../constants/constants';
 export class WordSearchComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
-    private appService: AppService
+    private httpService: HttpService
   ) {}
 
   @Output() latestSearch: EventEmitter<{
@@ -47,7 +45,7 @@ export class WordSearchComponent implements OnInit {
 
   wordSearchForm = this.formBuilder.group({
     word: ['', Validators.required],
-    searchOptions: [{ value: '' }, Validators.required],
+    searchOptions: [{ value: '', disabled: true }, Validators.required],
   });
 
   private formChanges$!: Subscription;
