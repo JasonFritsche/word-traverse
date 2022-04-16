@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-navbar',
   template: `
     <div class="navbar bg-base-100">
-      <p class="normal-case text-xl">Word Traverse</p>
+      <p class="normal-case text-2xl">Word Traverse</p>
     </div>
   `,
 })

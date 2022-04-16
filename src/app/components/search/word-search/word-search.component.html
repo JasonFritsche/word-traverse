@@ -10,7 +10,7 @@
         formControlName="word"
         type="text"
         placeholder="Search for a word"
-        class="input input-bordered w-full m-1"
+        class="input input-bordered w-full m-1 text-xl"
       />
       <ul
         *ngIf="searchSuggestions | async as list"
@@ -19,7 +19,7 @@
       >
         <ng-container *ngIf="showSearchSuggestions">
           <li
-            class="text-slate-900 hover:bg-slate-400 hover:text-purple-900"
+            class="text-slate-900 text-lg hover:bg-slate-400 hover:text-purple-900"
             *ngFor="let option of list"
             (click)="selectSearchSuggestion(option)"
           >
@@ -30,19 +30,26 @@
     </div>
 
     <select
-      class="select select-bordered w-[52rem] m-1"
+      class="select select-bordered w-[52rem] m-1 text-lg"
       formControlName="searchOptions"
     >
-      <option selected>Select</option>
+      <option value="" disabled selected class="hidden">
+        Select your option
+      </option>
       <ng-container *ngFor="let option of wordSearchOptions">
-        <option [value]="option.value">{{ option.name }}</option>
+        <option
+          class="text-slate-900 text-lg hover:bg-slate-400 hover:text-purple-900"
+          [value]="option.value"
+        >
+          {{ option.name }}
+        </option>
       </ng-container>
     </select>
 
     <button
       type="submit"
       [disabled]="!wordSearchForm.valid"
-      class="btn w-[52rem] m-1"
+      class="btn w-[52rem] text-lg m-1"
     >
       Search
     </button>

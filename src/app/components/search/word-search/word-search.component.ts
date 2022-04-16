@@ -15,7 +15,6 @@ import {
   IWordSearchOptions,
   IWordSearchResult,
 } from '../../../../interfaces/words';
-import { AppService } from '../../../services/app.service';
 import { HttpService } from '../../../../services/http.service';
 import { wordSearchOptions } from '../../../constants/constants';
 
