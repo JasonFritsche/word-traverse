@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
+  selector: 'app-navbar',
+  template: `
+    <div class="navbar bg-base-100">
+      <p class="normal-case text-xl">Word Traverse</p>
+    </div>
+  `,
 })
 export class NavbarComponent implements OnInit {
   constructor() {}

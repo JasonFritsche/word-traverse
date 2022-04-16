@@ -1,55 +1,48 @@
-<div class="word-search-container">
+<div class="m-4 h-auto w-auto">
   <form
+    class="flex flex-col items-center"
     [formGroup]="wordSearchForm"
     #formDirective="ngForm"
     (ngSubmit)="onWordSearchFormSubmit(formDirective)"
   >
-    <mat-form-field
-      class="word-search-form-field"
-      appearance="outline"
-      color="'primary"
-    >
-      <mat-label>Search for a word</mat-label>
+    <div class="w-[52rem] mr-1">
       <input
         formControlName="word"
-        matInput
-        placeholder="Placeholder"
-        [matAutocomplete]="auto"
+        type="text"
+        placeholder="Search for a word"
+        class="input input-bordered w-full m-1"
       />
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
-          *ngFor="let option of searchSuggestions | async"
-          [value]="option"
-        >
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-      <mat-icon
-        [style.fill]="searchIconRGB"
-        svgIcon="magnify"
-        matSuffix
-      ></mat-icon>
-    </mat-form-field>
-    <mat-form-field
-      class="word-search-form-field"
-      appearance="outline"
-      color="'primary"
+      <ul
+        *ngIf="searchSuggestions | async as list"
+        class="absolute w-[52rem] bg-slate-300"
+        (clickOutside)="showSearchSuggestions = false"
+      >
+        <ng-container *ngIf="showSearchSuggestions">
+          <li
+            class="text-slate-900 hover:bg-slate-400 hover:text-purple-900"
+            *ngFor="let option of list"
+            (click)="selectSearchSuggestion(option)"
+          >
+            {{ option }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+
+    <select
+      class="select select-bordered w-[52rem] m-1"
+      formControlName="searchOptions"
     >
-      <mat-label>Search Options</mat-label>
-      <mat-select formControlName="searchOptions">
-        <mat-option
-          *ngFor="let option of wordSearchOptions"
-          [value]="option.value"
-          >{{ option.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+      <option selected>Select</option>
+      <ng-container *ngFor="let option of wordSearchOptions">
+        <option [value]="option.value">{{ option.name }}</option>
+      </ng-container>
+    </select>
+
     <button
-      class="word-search-form-field"
       type="submit"
       [disabled]="!wordSearchForm.valid"
-      mat-flat-button
-      color="primary"
+      class="btn w-[52rem] m-1"
     >
       Search
     </button>

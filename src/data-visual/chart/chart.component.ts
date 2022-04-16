@@ -15,8 +15,13 @@ import { IHighchartsOptions } from 'src/interfaces/charts';
 
 @Component({
   selector: 'app-chart',
-  templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss'],
+  template: `
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 100%; display: block"
+    ></highcharts-chart>
+  `,
 })
 export class ChartComponent implements OnInit, OnChanges {
   constructor() {}
