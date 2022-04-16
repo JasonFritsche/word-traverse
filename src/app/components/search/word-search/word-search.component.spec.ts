@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
-import { MaterialModule } from 'src/material/material.module';
 import { WordSearchComponent } from './word-search.component';
 
 describe('WordSearchComponent', () => {
@@ -20,7 +19,6 @@ describe('WordSearchComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MaterialModule,
       ],
       providers: [provideMockStore({ initialState })],
     }).compileComponents();
