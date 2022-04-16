@@ -7,6 +7,7 @@ import {
   filter,
   map,
   retry,
+  skipWhile,
   startWith,
   switchMap,
   tap,
@@ -17,24 +18,17 @@ import {
 } from '../../../../interfaces/words';
 import { AppService } from '../../../services/app.service';
 import { HttpService } from '../../../../services/http.service';
-import { HighchartsService } from 'src/services/highcharts.service';
 import { wordSearchOptions } from '../../../constants/constants';
-import { Store } from '@ngrx/store';
-import { IWordSearchState } from 'src/app/store/reducers/word-search.reducers';
-import { NewSearch } from 'src/app/store/actions/word-search.actions';
 
 @Component({
   selector: 'app-word-search',
   templateUrl: './word-search.component.html',
-  styleUrls: ['./word-search.component.scss'],
 })
 export class WordSearchComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private appService: AppService,
-    private highChartsService: HighchartsService,
-    private _store: Store<IWordSearchState>
+    private appService: AppService
   ) {}
 
   @Output() latestSearch: EventEmitter<{
@@ -47,11 +41,13 @@ export class WordSearchComponent implements OnInit {
 
   searchIconRGB = 'rgb(18, 48, 87)';
   searchSuggestions!: Observable<string[]>;
+  showSearchSuggestions = false;
+  wordSelectedFromResults = false;
   wordSearchOptions = wordSearchOptions;
 
   wordSearchForm = this.formBuilder.group({
     word: ['', Validators.required],
-    searchOptions: [{ value: '', disabled: true }, Validators.required],
+    searchOptions: [{ value: '' }, Validators.required],
   });
 
   private formChanges$!: Subscription;
@@ -72,6 +68,16 @@ export class WordSearchComponent implements OnInit {
         this.updateLatestSearch();
         this.resetForm(formDirective);
       });
+  }
+
+  selectSearchSuggestion(selectedWordSuggestion: string) {
+    this.showSearchSuggestions = false;
+    this.wordSearchForm.patchValue(
+      {
+        word: selectedWordSuggestion,
+      },
+      { emitEvent: false }
+    );
   }
 
   private resetForm(formDirective: FormGroupDirective) {
@@ -100,10 +106,12 @@ export class WordSearchComponent implements OnInit {
       debounceTime(250),
       distinctUntilChanged(),
       tap((searchTerm: string) => {
-        this.searchIconRGB = this.appService.generateRGBColor();
+        //this.searchIconRGB = this.appService.generateRGBColor();
         if (searchTerm !== '') {
+          this.showSearchSuggestions = true;
           this.wordSearchForm.controls['searchOptions'].enable();
         } else {
+          this.showSearchSuggestions = false;
           this.wordSearchForm.controls['searchOptions'].disable();
         }
       }),
@@ -112,6 +120,7 @@ export class WordSearchComponent implements OnInit {
         this.httpService.getSuggestedWords(wordSearch).pipe(
           retry(3),
           startWith([]),
+          tap((res) => console.log(res)),
           map((resArr: IWordSearchResult[]) =>
             resArr.map((res: IWordSearchResult) => res.word)
           )

@@ -4,9 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-
 // Third Part Libs
 import { ToastrModule } from 'ngx-toastr';
 
@@ -19,7 +16,6 @@ import { WordSearchComponent } from './components/search/word-search/word-search
 import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 
 // Modules
-import { MaterialModule } from '../material/material.module';
 import { DataVisualModule } from 'src/data-visual/data-visual.module';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 import { SearchResultComponent } from './components/search/search-result/search-result.component';
@@ -29,6 +25,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { WordSearchEffects } from './store/effects/word-search.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -37,14 +34,13 @@ import { environment } from 'src/environments/environment';
     WordSearchComponent,
     EmptyStateComponent,
     SearchResultComponent,
+    ClickOutsideDirective,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatIconModule,
-    MaterialModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-full-width',
@@ -67,10 +63,4 @@ import { environment } from 'src/environments/environment';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
-    matIconRegistry.addSvgIconSet(
-      domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg')
-    );
-  }
-}
+export class AppModule {}

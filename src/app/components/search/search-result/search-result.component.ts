@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { IWordSearchOptions } from "src/interfaces/words";
+import { Component, Input, OnInit } from '@angular/core';
+import { IWordSearchOptions } from 'src/interfaces/words';
 
 @Component({
-  selector: "app-search-result",
-  templateUrl: "./search-result.component.html",
-  styleUrls: ["./search-result.component.scss"],
+  selector: 'app-search-result',
+  template: `
+    <div class="flex flex-row justify-center p-8">
+      <p>
+        You searched for {{ latestSearch.searchOption.resultTerm }}
+        {{ latestSearch.word }}
+      </p>
+    </div>
+  `,
 })
 export class SearchResultComponent implements OnInit {
   constructor() {}
