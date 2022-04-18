@@ -15,7 +15,7 @@ export const State: IWordSearchState = {
   wordSearchResults: [],
 };
 
-export const reducer = createReducer(
+export const wordSearchReducer = createReducer(
   State,
   on(NewSearchSuccess, (state, props) => ({
     ...state,
@@ -24,4 +24,4 @@ export const reducer = createReducer(
 );
 
 export const wordSearchResults = (state: IWordSearchState) =>
-  state.wordSearchResults;
+  state?.wordSearchResults;

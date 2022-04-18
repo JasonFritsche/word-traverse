@@ -1,14 +1,24 @@
-import { TestBed } from "@angular/core/testing";
-import { AppComponent } from "./app.component";
+import { TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from '../app/components/navbar/navbar.component';
+import { WordSearchComponent } from '../app/components/search/word-search/word-search.component';
+import { MockComponent } from 'ng-mocks';
 
-describe("AppComponent", () => {
+describe('AppComponent', () => {
+  const initialState = {};
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [
+        AppComponent,
+        NavbarComponent,
+        MockComponent(WordSearchComponent),
+      ],
+      providers: [provideMockStore({ initialState })],
     }).compileComponents();
   });
 
-  it("should create the app", () => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
@@ -17,13 +27,6 @@ describe("AppComponent", () => {
   it(`should have as title 'word-traverse'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual("Word Traverse");
-  });
-
-  it("should render title", () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector(".content span")?.textContent).toContain("Word Traverse app is running!");
+    expect(app.title).toEqual('Word Traverse');
   });
 });

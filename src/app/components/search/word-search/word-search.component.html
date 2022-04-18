@@ -19,7 +19,7 @@
       >
         <ng-container *ngIf="showSearchSuggestions">
           <li
-            class="text-slate-900 text-lg hover:bg-slate-400 hover:text-purple-900"
+            class="text-slate-900 text-lg p-1 hover:bg-slate-400 hover:text-purple-900"
             *ngFor="let option of list"
             (click)="selectSearchSuggestion(option)"
           >

@@ -12,7 +12,6 @@ import { IWordSearchResult } from 'src/interfaces/words';
 export class WordSearchEffects {
   newSearch$ = createEffect(() =>
     this.actions.pipe(
-      tap((action) => console.log(action)),
       ofType(EWordSearchActions.NewSearch),
       exhaustMap((action: any) =>
         this.httpService.getSearchResults(action.payload).pipe(

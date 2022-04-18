@@ -12,6 +12,7 @@ import more from 'highcharts/highcharts-more';
 more(Highcharts);
 
 import { IHighchartsOptions } from 'src/interfaces/charts';
+import { ITheme } from 'src/interfaces/theme';
 
 @Component({
   selector: 'app-chart',
@@ -19,6 +20,7 @@ import { IHighchartsOptions } from 'src/interfaces/charts';
     <highcharts-chart
       [Highcharts]="Highcharts"
       [options]="chartOptions"
+      (chartInstance)="onChartInstance($event)"
       style="width: 100%; height: 100%; display: block"
     ></highcharts-chart>
   `,
@@ -27,14 +29,24 @@ export class ChartComponent implements OnInit, OnChanges {
   constructor() {}
 
   @Input() options!: IHighchartsOptions;
+  @Input() theme!: ITheme;
 
   @Output() onBubbleClick = new EventEmitter<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
+  chart!: Highcharts.Chart;
+
+  onChartInstance(chart: Highcharts.Chart) {
+    this.chart = chart;
+    this.updateChartBackground();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['options'].currentValue) {
+    if (changes['theme']?.currentValue && this.chart) {
+      this.updateChartBackground();
+    }
+    if (changes['options']?.currentValue) {
       const options = changes['options'].currentValue;
       const newChartOptions: Highcharts.Options = {
         title: options.title,
@@ -75,4 +87,12 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {}
+
+  private updateChartBackground() {
+    this.chart.update({
+      chart: {
+        backgroundColor: this.theme.background,
+      },
+    });
+  }
 }
