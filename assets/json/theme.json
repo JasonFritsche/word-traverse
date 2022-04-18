@@ -1,0 +1,38 @@
+[
+  {
+    "key": "wt-theme-light",
+    "value": "light",
+    "type": "light",
+    "background": "#FFFFFF"
+  },
+  {
+    "key": "wt-theme-emerald",
+    "value": "emerald",
+    "type": "light",
+    "background": "#FFFFFF"
+  },
+  {
+    "key": "wt-theme-cupcake",
+    "value": "cupcake",
+    "type": "light",
+    "background": "#FFFFFF"
+  },
+  {
+    "key": "wt-theme-dark",
+    "value": "dark",
+    "type": "dark",
+    "background": "#2A303C"
+  },
+  {
+    "key": "wt-theme-forest",
+    "value": "forest",
+    "type": "dark",
+    "background": "#171212"
+  },
+  {
+    "key": "wt-theme-night",
+    "value": "night",
+    "type": "dark",
+    "background": "#0F1729"
+  }
+]
