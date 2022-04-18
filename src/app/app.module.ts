@@ -20,7 +20,8 @@ import { DataVisualModule } from 'src/data-visual/data-visual.module';
 import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 import { SearchResultComponent } from './components/search/search-result/search-result.component';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './store/reducers/word-search.reducers';
+import { wordSearchReducer } from './store/reducers/word-search.reducers';
+import { themeReducer } from './store/reducers/theme.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { WordSearchEffects } from './store/effects/word-search.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -46,7 +47,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
       positionClass: 'toast-bottom-full-width',
     }),
     DataVisualModule,
-    StoreModule.forRoot({ state: reducer }),
+    StoreModule.forRoot({ wordSearch: wordSearchReducer, theme: themeReducer }),
     EffectsModule.forRoot([WordSearchEffects]),
     StoreDevtoolsModule.instrument({
       name: 'DevTools & Debugging in NgRx',

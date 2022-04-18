@@ -6,8 +6,8 @@ import { IWordSearchOptions } from 'src/interfaces/words';
   template: `
     <div class="flex flex-row justify-center p-8">
       <p>
-        You searched for {{ latestSearch.searchOption.resultTerm }}
-        {{ latestSearch.word }}
+        You searched for {{ latestSearch?.searchOption?.resultTerm }}
+        {{ latestSearch?.word }}
       </p>
     </div>
   `,

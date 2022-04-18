@@ -36,7 +36,7 @@ describe('WordSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('has searchOptions field set to disabled when the form is initially loaded', () => {
+  it('has searchOptions field set to disabled when the form is initially loaded', () => {
     expect(component.wordSearchForm.get('searchOptions')?.disabled).toBe(true);
   });
 });

@@ -6,18 +6,22 @@ import {
   IWordSearchResult,
 } from 'src/interfaces/words';
 import { HighchartsService } from 'src/services/highcharts.service';
-import { wordSearchOptions } from './constants/constants';
 import { select, Store } from '@ngrx/store';
 import { IWordSearchState } from './store/reducers/word-search.reducers';
 import { NewSearch } from './store/actions/word-search.actions';
-import { getWordSearchResults } from './store/reducers/index';
+import { getTheme, getWordSearchResults } from './store/reducers/index';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
+import { IThemeState } from './store/reducers/theme.reducers';
+import { ITheme } from 'src/interfaces/theme';
 
 @Component({
   selector: 'app-root',
   template: `
-    <div class="flex flex-col h-screen">
+    <div
+      class="flex flex-col h-screen"
+      [attr.data-theme]="selectedTheme?.value"
+    >
       <header class="relative z-10 h-16">
         <app-navbar></app-navbar>
       </header>
@@ -28,6 +32,7 @@ import { filter, tap } from 'rxjs/operators';
           <div class="h-full w-full">
             <ng-container *ngIf="showChart; else emptyState">
               <app-chart
+                [theme]="selectedTheme"
                 [options]="chartOptions"
                 (onBubbleClick)="handleBubbleClick($event)"
               ></app-chart>
@@ -61,14 +66,21 @@ export class AppComponent {
   latestSearch!: { word: string; searchOption: IWordSearchOptions };
   latestSearchCriteria!: ISearchCriteria;
   searchResults$!: Observable<IWordSearchResult[]>;
+  selectedTheme: ITheme = {
+    key: 'wt-theme-light',
+    value: 'light',
+    type: 'light',
+    background: '#FFFFFF',
+  };
 
   constructor(
     private highchartsService: HighchartsService,
-    private _store: Store<IWordSearchState>
+    private wordSearchStore: Store<IWordSearchState>,
+    private themeStore: Store<IThemeState>
   ) {}
 
   ngOnInit() {
-    this._store
+    this.wordSearchStore
       .pipe(
         select(getWordSearchResults),
         filter((res) => !!res && res.length !== 0)
@@ -77,6 +89,10 @@ export class AppComponent {
         this.showChart = true;
         this.chartOptions = this.highchartsService.createOptions(wordSearchRes);
       });
+
+    this.themeStore
+      .select(getTheme)
+      .subscribe((theme) => (this.selectedTheme = theme));
   }
 
   handleLatestSearch(latestSearch: {
@@ -90,7 +106,7 @@ export class AppComponent {
     };
 
     this.latestSearchCriteria = latestSearchCriteria;
-    this._store.dispatch(NewSearch({ payload: latestSearchCriteria }));
+    this.wordSearchStore.dispatch(NewSearch({ payload: latestSearchCriteria }));
   }
 
   handleBubbleClick(clickedBubbleWord: string) {
@@ -104,6 +120,6 @@ export class AppComponent {
       word: clickedBubbleWord,
     };
 
-    this._store.dispatch(NewSearch({ payload: newSearchCriteria }));
+    this.wordSearchStore.dispatch(NewSearch({ payload: newSearchCriteria }));
   }
 }
