@@ -91,15 +91,16 @@ export class ChartComponent implements OnInit, OnChanges {
   private updateChartBackground() {
     // this.chart.options.plotOptions?.packedbubble?.color = this.theme.secondary;
     this.chart.update({
+      chart: {
+        backgroundColor: this.theme.background,
+      },
       plotOptions: {
         packedbubble: {
           color: this.theme.secondary,
+          dataLabels: {
+            color: this.theme.bubbleTextColor,
+          },
         },
-      },
-    });
-    this.chart.update({
-      chart: {
-        backgroundColor: this.theme.background,
       },
     });
   }

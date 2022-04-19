@@ -72,6 +72,7 @@ export class AppComponent {
     type: 'light',
     background: '#FFFFFF',
     secondary: '#37CDBE',
+    bubbleTextColor: 'black',
   };
 
   constructor(

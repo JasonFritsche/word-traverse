@@ -4,4 +4,5 @@ export interface ITheme {
   type: string;
   background: string;
   secondary: string;
+  bubbleTextColor: string;
 }
