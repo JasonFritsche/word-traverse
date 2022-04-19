@@ -3,36 +3,48 @@
     "key": "wt-theme-light",
     "value": "light",
     "type": "light",
-    "background": "#FFFFFF"
+    "background": "#FFFFFF",
+    "secondary": "#37CDBE",
+    "bubbleTextColor": "black"
   },
   {
     "key": "wt-theme-emerald",
     "value": "emerald",
     "type": "light",
-    "background": "#FFFFFF"
+    "background": "#FFFFFF",
+    "secondary": "#C0361C",
+    "bubbleTextColor": "#061c00"
   },
   {
     "key": "wt-theme-cupcake",
     "value": "cupcake",
     "type": "light",
-    "background": "#FFFFFF"
+    "background": "#FFFFFF",
+    "secondary": "#EEAF3A",
+    "bubbleTextColor": "black"
   },
   {
     "key": "wt-theme-dark",
     "value": "dark",
     "type": "dark",
-    "background": "#2A303C"
+    "background": "#2A303C",
+    "secondary": "#CECECE",
+    "bubbleTextColor": "#FFFFFF"
   },
   {
     "key": "wt-theme-forest",
     "value": "forest",
     "type": "dark",
-    "background": "#171212"
+    "background": "#171212",
+    "secondary": "#D99330",
+    "bubbleTextColor": "black"
   },
   {
     "key": "wt-theme-night",
     "value": "night",
     "type": "dark",
-    "background": "#0F1729"
+    "background": "#0F1729",
+    "secondary": "#F471B5",
+    "bubbleTextColor": "black"
   }
 ]

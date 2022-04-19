@@ -3,4 +3,6 @@ export interface ITheme {
   value: string;
   type: string;
   background: string;
+  secondary: string;
+  bubbleTextColor: string;
 }
