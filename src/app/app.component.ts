@@ -71,6 +71,7 @@ export class AppComponent {
     value: 'light',
     type: 'light',
     background: '#FFFFFF',
+    secondary: '#37CDBE',
   };
 
   constructor(
