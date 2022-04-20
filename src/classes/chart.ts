@@ -23,6 +23,7 @@ export class HichchartsOptions implements IHighchartsOptions {
       maxSize: '90%',
       zMin: 0,
       zMax: 1000,
+      cursor: 'pointer',
       layoutAlgorithm: {
         splitSeries: false,
         gravitationalConstant: 0.02,

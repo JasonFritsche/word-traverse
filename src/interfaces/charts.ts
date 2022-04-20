@@ -12,6 +12,7 @@ export interface IHighchartsOptions {
       maxSize: string | number;
       zMin: number;
       zMax: number;
+      cursor: string;
       layoutAlgorithm: {
         splitSeries: boolean;
         gravitationalConstant: number;
