@@ -5,7 +5,7 @@
     #formDirective="ngForm"
     (ngSubmit)="onWordSearchFormSubmit(formDirective)"
   >
-    <div class="w-[52rem] mr-1">
+    <div class="w-11/12 mr-1">
       <input
         formControlName="word"
         type="text"
@@ -14,7 +14,7 @@
       />
       <ul
         *ngIf="searchSuggestions | async as list"
-        class="absolute w-[52rem] bg-slate-300"
+        class="absolute w-11/12 bg-slate-300"
         (clickOutside)="showSearchSuggestions = false"
       >
         <ng-container *ngIf="showSearchSuggestions">
@@ -30,7 +30,7 @@
     </div>
 
     <select
-      class="select select-bordered w-[52rem] m-1 text-lg"
+      class="select select-bordered w-11/12 m-1 text-lg"
       formControlName="searchOptions"
     >
       <option value="" disabled selected class="hidden">
@@ -49,7 +49,7 @@
     <button
       type="submit"
       [disabled]="!wordSearchForm.valid"
-      class="btn w-[52rem] text-lg m-1"
+      class="btn w-11/12 text-lg m-1"
     >
       Search
     </button>
