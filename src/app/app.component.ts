@@ -49,10 +49,6 @@ import { ITheme } from 'src/interfaces/theme';
             <app-word-search
               (latestSearch)="handleLatestSearch($event)"
             ></app-word-search>
-            <app-search-result
-              *ngIf="latestSearch"
-              [latestSearch]="latestSearch"
-            ></app-search-result>
           </div>
         </div>
       </main>
@@ -90,6 +86,7 @@ export class AppComponent {
       .subscribe((wordSearchRes) => {
         this.showChart = true;
         this.chartOptions = this.highchartsService.createOptions(wordSearchRes);
+        this.chartOptions.title.text= 'Showing results for ' + this.latestSearch.searchOption.resultTerm + ' ' + this.latestSearch.word;
       });
 
     this.themeStore
