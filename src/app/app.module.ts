@@ -48,12 +48,13 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     }),
     DataVisualModule,
     StoreModule.forRoot({ wordSearch: wordSearchReducer, theme: themeReducer }),
-    EffectsModule.forRoot([WordSearchEffects]),
+    EffectsModule.forRoot([WordSearchEffects, ]),
     StoreDevtoolsModule.instrument({
       name: 'DevTools & Debugging in NgRx',
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     {
