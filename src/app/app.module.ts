@@ -27,7 +27,6 @@ import { WordSearchEffects } from './store/effects/word-search.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -55,7 +54,6 @@ import { environment } from '../environments/environment';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     {
