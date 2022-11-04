@@ -84,9 +84,14 @@ export class AppComponent {
         filter((res) => !!res && res.length !== 0)
       )
       .subscribe((wordSearchRes) => {
+        console.log('wordSearchRes', wordSearchRes);
         this.showChart = true;
         this.chartOptions = this.highchartsService.createOptions(wordSearchRes);
-        this.chartOptions.title.text= 'Showing results for ' + this.latestSearch.searchOption.resultTerm + ' ' + this.latestSearch.word;
+        this.chartOptions.title.text =
+          'Showing results for ' +
+          this.latestSearch.searchOption.resultTerm +
+          ' ' +
+          this.latestSearch.word;
       });
 
     this.themeStore
@@ -105,6 +110,7 @@ export class AppComponent {
     };
 
     this.latestSearchCriteria = latestSearchCriteria;
+    console.log('latestSearchCriteria', latestSearchCriteria);
     this.wordSearchStore.dispatch(NewSearch({ payload: latestSearchCriteria }));
   }
 

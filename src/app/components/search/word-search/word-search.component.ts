@@ -1,5 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -24,7 +28,7 @@ import { wordSearchOptions } from '../../../constants/constants';
 })
 export class WordSearchComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private httpService: HttpService
   ) {}
 
@@ -51,6 +55,7 @@ export class WordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.handleSearchSuggestions();
+    this.searchSuggestions.subscribe((res) => console.log('res', res));
   }
 
   ngOnDestroy() {

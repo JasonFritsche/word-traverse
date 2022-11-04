@@ -15,6 +15,7 @@ export class WordSearchEffects {
       ofType(EWordSearchActions.NewSearch),
       exhaustMap((action: any) =>
         this.httpService.getSearchResults(action.payload).pipe(
+          tap((res) => console.log('res', res)),
           map((res: IWordSearchResult[]) => NewSearchSuccess({ payload: res })),
           catchError((error) => of(error))
         )
