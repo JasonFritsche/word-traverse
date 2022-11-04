@@ -19,6 +19,7 @@ export class HttpService {
   }
 
   getSearchResults(searchCriteria: ISearchCriteria) {
+    console.log('searchCriteria', searchCriteria);
     //todo: implement error handling
     const { searchOptions, word } = searchCriteria;
     return this.httpClient

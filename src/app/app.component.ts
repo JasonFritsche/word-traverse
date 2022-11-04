@@ -110,6 +110,7 @@ export class AppComponent {
     };
 
     this.latestSearchCriteria = latestSearchCriteria;
+    console.log('latestSearchCriteria', latestSearchCriteria);
     this.wordSearchStore.dispatch(NewSearch({ payload: latestSearchCriteria }));
   }
 
