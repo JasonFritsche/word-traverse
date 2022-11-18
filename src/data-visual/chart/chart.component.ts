@@ -76,8 +76,9 @@ export class ChartComponent implements OnInit, OnChanges {
           },
         },
         tooltip: {
-          formatter: function () {
-            return `${this.key}`;
+          headerFormat: '',
+          pointFormatter: function () {
+            return `${this.name}`;
           },
           shared: true,
         },
